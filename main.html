@@ -1,16 +1,93 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drink Water</title>
+  <style>
+    .cup {
+      width: 100px;
+      height: 150px;
+      background-color: lightblue;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .cup-small {
+      width: 50px;
+      height: 75px;
+      background-color: lightblue;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .full {
+      background-color: blue;
+    }
+
+    .cups {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <h1>Drink Water</h1>
+  <h3>Goal: 2 Litres</h3>
+  <div class="cup">
+    <div class="remained">2 Litres</div>
+    <div class="percentage">0%</div>
+  </div>
+  <p class="text">Select how many glasses of water you have drunk:</p>
+  <div class="cups">
+    <div class="cup-small" id="cup-1"></div>
+    <div class="cup-small" id="cup-2"></div>
+    <div class="cup-small" id="cup-3"></div>
+    <div class="cup-small" id="cup-4"></div>
+    <div class="cup-small" id="cup-5"></div>
+    <div class="cup-small" id="cup-6"></div>
+    <div class="cup-small" id="cup-7"></div>
+    <div class="cup-small" id="cup-8"></div>
+  </div>
 
+  <script>
+    const cupSmallElements = document.querySelectorAll('.cup-small');
+    const cupElement = document.querySelector('.cup');
+    const remainedElement = document.querySelector('.remained');
+    const percentageElement = document.querySelector('.percentage');
+
+    let cupsDrunk = 0;
+    let totalCups = 8;
+    let targetAmount = 2000; // Target amount in milliliters (2 litres)
+
+    cupSmallElements.forEach((cupSmall, index) => {
+      cupSmall.addEventListener('click', () => {
+        if (cupSmall.classList.contains('full')) {
+          cupSmall.classList.remove('full');
+          cupsDrunk--;
+        } else {
+          cupSmall.classList.add('full');
+          cupsDrunk++;
+        }
+
+        updateCupProgress();
+      });
+    });
+
+    function updateCupProgress() {
+      const totalAmount = targetAmount * cupsDrunk / totalCups;
+      const remainedAmount = targetAmount - totalAmount;
+      const percentage = totalAmount / targetAmount * 100;
+
+      remainedElement.innerText = `${remainedAmount} ml`;
+      percentageElement.innerText = `${percentage.toFixed(2)}%`;
+
+      if (cupsDrunk === totalCups) {
+        cupElement.classList.add('full');
+      } else {
+        cupElement.classList.remove('full');
+      }
+    }
+  </script>
 </body>
-
 </html>
